@@ -9,6 +9,8 @@ import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 import VueDND from 'awe-dnd'
 import VueBus from 'vue-bus'
+import Vddl from 'vddl'
+Vue.use(Vddl)
 Vue.use(ElementUI)
 Vue.use(iView)
 Vue.use(VueDND)

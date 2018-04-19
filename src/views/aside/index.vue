@@ -1,17 +1,17 @@
 <template>
     <Scroll :on-reach-bottom="handleReachBottom" :height='650'>
-      <transition-group name="list-complete" tag="ul">
-        <Card class='item-content list-complete-item' dis-hover v-for="(item, index) in list" :key="index" v-dragging="{ item: item, list: list, group: 'item' }">
-           <div  @click="show">Content {{ item }}</div> 
-        </Card>
-      </transition-group>
+      <vddl-list class="panel-list" :list="list" :horizontal="false">
+          <vddl-draggable class="panel-item" v-for="(item, index) in list" :key="item.label" :draggable="item" :index="index" :wrapper="list" effect-allowed="move" :selected="show" :dragstart="show">
+            {{item.label}}
+          </vddl-draggable>
+          <vddl-placeholder class="bg-color"></vddl-placeholder>
+      </vddl-list>
     </Scroll>
 </template>
 <script>
 export default {
   data () {
     return {
-      list1: ['s1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 's9', 's10']
     }
   },
   props: {
@@ -21,56 +21,41 @@ export default {
   },
   methods: {
     handleReachBottom () {
-      return new Promise(resolve => {
-        setTimeout(() => {
-          const last = this.list1[this.list1.length - 1]
-          for (let i = 1; i < 11; i++) {
-            this.list1.push(last + i)
-          }
-          resolve()
-        }, 2000)
-      })
     },
-    show(){
-      console.log('ssssss')
+    show (item) {
+      console.log('dddddd', item)
     }
-  },
-  mounted () {
-    this.$dragging.$on('dragged', (value) => {
-      console.log('dragged', value)
-      this.$bus.$emit('reciveData', value)
-    })
-    this.$dragging.$on('touchstart', (value) => {
-      console.log('click', value)
-    })
   }
 }
 </script>
 <style scoped>
-.item-content {
-  height: 100px;
-  margin: 20px auto;
-  background: black;
-  color: #fff;
+.vddl-list, .vddl-draggable {
+  position: relative;
 }
-.item-content.dragging {
-  transform: scale(1.1);
+.vddl-list {
+  min-height: 44px;
 }
-.item-content-move {
-  transition: transform 1s;
+.vddl-dragging{
+  opacity: 0.7;
+  border:1px solid blue;
 }
 
-.list-complete-item {
-  transition: all 1s;
-  /* display: inline-block; */
-  /* margin-right: 10px; */
+.vddl-dragging-source {
+  display: none;
 }
-.list-complete-enter, .list-complete-leave-to
-/* .list-complete-leave-active for below version 2.1.8 */ {
-  opacity: 0;
-  transform: translateY(30px);
+.panel-item{
+  width: 200px;
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+  margin: 10px auto;
+  background: #fff;
 }
-.list-complete-leave-active {
-  position: absolute;
+.bg-color{
+  width: 200px;
+  height: 100px;
+  /* text-align: center; */
+  margin: 10px auto;
+  /* background: #fff; */
 }
 </style>

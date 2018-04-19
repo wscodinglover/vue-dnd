@@ -17,7 +17,33 @@ import MainView from './main'
 export default {
   data () {
     return {
-      list: ['ss1', 'ss2', 'ss3', 'ss4', 'ss5', 'ss6', 'ss7', 'ss8', 'ss9', 'ss10'],
+      list: [
+        {
+          'id': 1,
+          'label': 'Item A1'
+        }, {
+          'id': 2,
+          'label': 'Item A2'
+        }, {
+          'id': 3,
+          'label': 'Item A3'
+        }, {
+          'id': 4,
+          'label': 'Item A4'
+        }, {
+          'id': 5,
+          'label': 'Item A5'
+        }, {
+          'id': 6,
+          'label': 'Item A6'
+        }, {
+          'id': 7,
+          'label': 'Item A7'
+        }, {
+          'id': 8,
+          'label': 'Item A8'
+        }
+      ],
       mainData: {}
     }
   },
