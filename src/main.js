@@ -12,6 +12,7 @@ import VueBus from 'vue-bus'
 import Vddl from 'vddl'
 import contentmenu from 'v-contextmenu'
 import 'v-contextmenu/dist/index.css'
+import store from './store'
 Vue.use(contentmenu)
 Vue.use(Vddl)
 Vue.use(ElementUI)
@@ -24,6 +25,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

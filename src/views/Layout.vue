@@ -1,12 +1,31 @@
 <template>
     <el-container>
+      <v-contextmenu ref="sidemenu">
+        <v-contextmenu-item>保存</v-contextmenu-item>
+        <v-contextmenu-item>菜单</v-contextmenu-item>
+      </v-contextmenu>
+      <v-contextmenu ref="mainmenu">
+        <v-contextmenu-item @click="modal = true">保存</v-contextmenu-item>
+        <v-contextmenu-item>菜单2</v-contextmenu-item>
+        <v-contextmenu-submenu title="子菜单">
+          <v-contextmenu-item>子菜单1</v-contextmenu-item>
+          <v-contextmenu-item>子菜单2</v-contextmenu-item>
+        </v-contextmenu-submenu>
+      </v-contextmenu>
+      <Modal v-model="modal" title="Title" :loading="loading" @on-ok="asyncOK">
+        <p>After you click ok, the dialog box will close in 2 seconds.</p>
+      </Modal>
         <el-header>Header</el-header>
         <el-container>
             <el-aside>
+              <div v-contextmenu:sidemenu>
                 <ListView :list='list'/>
+              </div>
             </el-aside>
             <el-main>
-                <MainView :mainData='mainData'/>
+              <div v-contextmenu:mainmenu>
+                <MainView :mainData='mainData' v-show="mainData.id>=0"/>
+              </div>
             </el-main>
         </el-container>
     </el-container>
@@ -17,42 +36,30 @@ import MainView from './main'
 export default {
   data () {
     return {
-      list: [
-        {
-          'id': 1,
-          'label': 'Item A1'
-        }, {
-          'id': 2,
-          'label': 'Item A2'
-        }, {
-          'id': 3,
-          'label': 'Item A3'
-        }, {
-          'id': 4,
-          'label': 'Item A4'
-        }, {
-          'id': 5,
-          'label': 'Item A5'
-        }, {
-          'id': 6,
-          'label': 'Item A6'
-        }, {
-          'id': 7,
-          'label': 'Item A7'
-        }, {
-          'id': 8,
-          'label': 'Item A8'
-        }
-      ],
+      modal: false,
+      loading: true,
       mainData: {}
     }
   },
   components: { ListView, MainView },
+  methods: {
+    asyncOK () {
+      setTimeout(() => {
+        this.modal = false
+      }, 2000)
+    }
+  },
   created () {
     this.$bus.$on('reciveData', (data) => {
       console.log('father', data)
       this.mainData = data
     })
+    this.$store.dispatch('getListData')
+  },
+  computed: {
+    list () {
+      return this.$store.getters.list
+    }
   }
 }
 </script>

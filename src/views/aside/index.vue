@@ -1,8 +1,8 @@
 <template>
-    <Scroll :on-reach-bottom="handleReachBottom" :height='650'>
+    <Scroll :on-reach-bottom="handleReachBottom" :height='670'>
       <vddl-list class="panel-list" :list="list" :horizontal="false">
-          <vddl-draggable class="panel-item" v-for="(item, index) in list" :key="item.label" :draggable="item" :index="index" :wrapper="list" effect-allowed="move" :selected="show">
-            {{item.label}}
+          <vddl-draggable class="panel-item" v-for="(item, index) in list" :key="item.id" :draggable="item" :index="index" :wrapper="list" effect-allowed="move" :selected="show">
+            <img :src="item.avatar" alt="" class="list-img">
           </vddl-draggable>
           <vddl-placeholder class="bg-color"></vddl-placeholder>
       </vddl-list>
@@ -20,8 +20,7 @@ export default {
     }
   },
   methods: {
-    handleReachBottom () {
-    },
+    handleReachBottom () {},
     show (item) {
       this.$bus.$emit('reciveData', item)
     }
@@ -56,5 +55,10 @@ export default {
   /* text-align: center; */
   margin: 10px auto;
   /* background: #fff; */
+}
+.list-img{
+  display: block;
+  width: 200px;
+  height: 100px;
 }
 </style>
