@@ -1,7 +1,7 @@
 <template>
     <Scroll :on-reach-bottom="handleReachBottom" :height='650'>
       <vddl-list class="panel-list" :list="list" :horizontal="false">
-          <vddl-draggable class="panel-item" v-for="(item, index) in list" :key="item.label" :draggable="item" :index="index" :wrapper="list" effect-allowed="move" :selected="show" :dragstart="show">
+          <vddl-draggable class="panel-item" v-for="(item, index) in list" :key="item.label" :draggable="item" :index="index" :wrapper="list" effect-allowed="move" :selected="show">
             {{item.label}}
           </vddl-draggable>
           <vddl-placeholder class="bg-color"></vddl-placeholder>
@@ -23,7 +23,7 @@ export default {
     handleReachBottom () {
     },
     show (item) {
-      console.log('dddddd', item)
+      this.$bus.$emit('reciveData', item)
     }
   }
 }
@@ -37,9 +37,8 @@ export default {
 }
 .vddl-dragging{
   opacity: 0.7;
-  border:1px solid blue;
+  border:2px solid blue;
 }
-
 .vddl-dragging-source {
   display: none;
 }

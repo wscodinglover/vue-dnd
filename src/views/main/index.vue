@@ -1,5 +1,5 @@
 <template>
-  <div>{{mainData.draged}}</div>
+  <div>{{mainData.id}}{{mainData.label}}</div>
 </template>
 <script>
 export default {
