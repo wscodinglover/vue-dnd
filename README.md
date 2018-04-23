@@ -8,6 +8,9 @@
 # install dependencies
 npm install
 
+# json 数据
+json-server db.json -p 1111
+
 # serve with hot reload at localhost:8080
 npm run dev
 
