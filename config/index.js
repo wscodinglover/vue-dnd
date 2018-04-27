@@ -11,18 +11,18 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api': {
+      '/api/a': {
         target: 'http://localhost:1111',
         changeOrigin: true,
         pathRewrite: {
-          '^/api': '/api',
+          '^/api/a': '/',
         },
       },
-      '/img': {
+      '/api/b': {
         target: 'https://jsonplaceholder.typicode.com',
         changeOrigin: true,
         pathRewrite: {
-          '^/img': '/img',
+          '^/api/b': '/',
         },
       },
       

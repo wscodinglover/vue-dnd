@@ -1,10 +1,19 @@
 <template>
-  <draggable v-model="myarr" class="list-container" :options="{animation: 300, group:'list', ghostClass: 'ghost', chosenClass:'chosen', scroll: true, scrollSensitivity: 100}" @start="drag=true" @end="drag=false" @choose="choose" @update="datadragEnd">
-    <div class="list-item" v-for="element in myarr" :key="element.id" @click='clickT(element.id)' @contextmenu="showMenu($event, element.id)">
-      <img class="list-img" :src="element.picUrl" alt="图片丢失" >
-      <vue-context-menu :contextMenuData="contextMenuData" @savedata="removedata" @newdata="newdata" />
-    </div>
-  </draggable>
+  <div>
+    <draggable
+      v-model="myarr"
+      class="list-container"
+      :options="{animation: 300, group:'list', ghostClass: 'ghost', chosenClass:'chosen', scroll: true, scrollSensitivity: 100}"
+      @start="drag=true"
+      @end="drag=false"
+      @choose="choose"
+      @update="datadragEnd">
+      <div class="list-item" v-for="element in myarr" :key="element.id" @click='clickT(element.id)' @contextmenu="showMenu($event, element.id)">
+        <img class="list-img" :src="element.picUrl" alt="图片丢失" >
+        <vue-context-menu :contextMenuData="contextMenuData" @savedata="removedata" @newdata="newdata"/>
+      </div>
+    </draggable>
+  </div>
 </template>
 <script>
 import draggable from 'vuedraggable'
@@ -62,6 +71,7 @@ export default {
       // console.log('拖动前的索引 :' + evt.oldIndex)
       // console.log('拖动后的索引 :' + evt.newIndex)
       // console.log(this.myarr)
+      this.$store.commit('SET_LIST', this.myarr)
     },
     checkMove (data) {
       // console.log('checkMove', data)
@@ -72,8 +82,8 @@ export default {
     },
     showMenu (e, id) {
       event.preventDefault()
-      var x = event.clientX
-      var y = event.clientY
+      let x = event.clientX
+      let y = event.clientY
       // Get the current location
       this.contextMenuData.axios = {
         x, y
@@ -86,30 +96,63 @@ export default {
       // console.log('newdata!', id)
       let arr = this.myarr
       // console.log('newdata!', arr)
-      this.myarr.map((item, index) => {
-        if (item.id === id) {
-          arr = arr.splice(index, 1)
-        }
+      this.$confirm(`是否删除 ID：${id}`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        center: true
+      }).then(() => {
+        this.myarr.map((item, index) => {
+          if (item.id === id) {
+            arr = arr.splice(index, 1)
+          }
+        })
+        this.$message({
+          type: 'success',
+          message: `${id} 删除成功!`
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
       })
     },
     newdata () {
-      let id = this.id
-      // console.log('newdata!', id)
-      let arr = this.myarr
-      // console.log('newdata!', arr)
-      this.myarr.map((item, index) => {
-        if (item.id === id) {
-          // console.log('index', index)
-          arr = arr.splice(index + 1, 0, {id: '', des: ''})
-        }
+      this.$confirm(`新建文件`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        center: true
+      }).then(() => {
+        this.$store.commit('CREATE_ITEM', this.id)
+        this.$message({
+          type: 'success',
+          message: `新建成功!`
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        })
       })
+      // let id = this.id
+      // // console.log('newdata!', id)
+      // let arr = this.myarr
+      // // console.log('newdata!', arr)
+      // this.myarr.map((item, index) => {
+      //   if (item.id === id) {
+      //     // console.log('index', new Date().getTime())
+      //     arr = arr.splice(index + 1, 0, {id: new Date().getTime(), des: 'ddddd', picUrl: ''})
+      //   }
+      // })
     }
   }
 }
 </script>
 <style scoped>
 .list-container{
-  overflow-y: scroll;
+  overflow-y: auto;
   height: 90vh;
 }
 .list-item{

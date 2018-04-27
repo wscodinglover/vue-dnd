@@ -15,6 +15,7 @@ export default {
     margin: 0;
     padding: 0;
     overflow: hidden;
+    padding-right:0 !important;
   }
   #app {
     margin: 0;

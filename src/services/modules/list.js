@@ -6,7 +6,7 @@ class AppService {
     this.http = http
   }
   getList () {
-    return this.http.get('/api/users')
+    return this.http.get('/api/a/users')
   }
 }
 

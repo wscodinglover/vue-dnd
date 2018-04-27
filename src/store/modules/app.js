@@ -2,7 +2,8 @@ import AppService from '../../services/modules/list'
 const app = {
   state: {
     list: [],
-    id: 1
+    id: 1,
+    updataList: []
   },
   mutations: {
     SET_LIST (state, list) {
@@ -14,6 +15,14 @@ const app = {
     },
     ITEM_ID (state, id) {
       state.id = id
+    },
+    CREATE_ITEM (state, id) {
+      let arr = state.list
+      state.list.map((item, index) => {
+        if (item.id === id) {
+          arr = arr.splice(index + 1, 0, {id: new Date().getTime(), des: '', picUrl: ''})
+        }
+      })
     }
   },
   actions: {
